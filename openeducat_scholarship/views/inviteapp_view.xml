@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="view_op_scholarship_invite_tree" model="ir.ui.view">
+            <field name="name">op.scholarship.invite.tree</field>
+            <field name="model">op.inviteapp</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Invite Applicants">
+                    <field name="scheme_id" />
+                    <field name="caste_ids" widget="many2many_tags" />
+                    <field name="department_ids" widget="many2many_tags" /> 
+                    <button name="act_applynow" type="object" string="Apply Now" class="oe_highlight" groups="openeducat_core.group_op_student" context="{'default_scheme1': scheme_id}" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_op_scholarship_invite_form" model="ir.ui.view">
+            <field name="name">op.scholarship.invite.form</field>
+            <field name="model">op.inviteapp</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Invite Applicants">
+                    <sheet>
+                        <group>
+                            <field name="scheme_id" />
+                            <field name="caste_ids" widget="many2many_tags"/>
+                            <field name="campus_id"/>
+                            <field name="institute_id"/>
+                            <field name="department_ids" widget="many2many_tags"/> 
+                            <field name="program_ids" widget="many2many_tags"/>
+                        </group>
+                        <group string="Scholarship Details">
+                            <field name="scho_type"/>
+                            <field name="eval_type"/>
+                            <field name="sponsor"/>
+                            <field name="sch_amount"/>
+                            <field name="req_att"/> 
+                            <field name="candidates"/>
+                        </group>
+                        <group string="Disbursement Details">
+                            <field name="interval"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group> 
+                        <group string="Sponsor Details">
+                            <field name="sponsor_name"/>
+                            <field name="sponsor_email_id"/>
+                            <field name="sponsor_contact_no"/> 
+                            <field name="sponsor_address"/> 
+                        </group>
+                        <group string="Requirements">
+                            <field name="percentage"/>
+                            <field name="percentile"/>
+                            <field name="income"/>
+                            <field name="sport"/>
+                            <field name="research"/>
+                            <field name="gender"/>
+                            <field name="religion"/>
+                            <field name="career"/>
+                            <field name="career_desc"/>
+                            <field name="achievement"/>
+                            <field name="achieve"/>
+                            <field name="bond"/>
+                            <field name="add_note"/>
+                        </group>
+                        <notebook>
+                            <page string="Brand Details">
+                                <group>
+                                    <field name="brand_name"/>
+                                    <field name="brand_org"/>
+                                    <field name="brand_no"/>
+                                    <field name="brand_mail"/>
+                                    <field name="product"/>
+                                    <field name="prod_details"/>
+                                </group>
+                            </page>
+                            <page string="Contest Details">
+                                <group colspan="4">
+                                    <field name="contest"/>
+                                    <field name="contest_details"/>
+                                </group>
+                            </page> 
+
+                        </notebook>
+                        <group string="Eligible Students">
+                            <field name="student_ids"/>
+                        </group>   
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+       <!-- 
+        search view
+        <record id="view_op_scholarship_type_search" model="ir.ui.view">
+            <field name="name">op.scholarship.type.search</field>
+            <field name="model">op.scholarship.type</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Tag">
+                    <field name="name" />
+                    <field name="amount" />
+                    <newline />
+                    <group expand="0" string="Group By...">
+                        <filter string="Name" domain="[]" context="{'group_by':'name'}" />
+                        <filter string="Amount" domain="[]" context="{'group_by':'amount'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+    -->
+        <record model="ir.actions.act_window" id="act_open_inviteapp_view">
+            <field name="name">Invite Applicants</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.inviteapp</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        <!--    <field name="search_view_id" ref="view_op_scholarship_type_search" /> -->
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_op_inviteapp_view_form">
+            <field name="act_window_id" ref="act_open_inviteapp_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_scholarship_invite_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_scholarship_type_view_tree">
+            <field name="act_window_id" ref="act_open_inviteapp_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_op_scholarship_invite_tree" />
+        </record>
+    </data>
+</odoo>

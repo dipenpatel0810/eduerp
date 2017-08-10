@@ -1,0 +1,28 @@
+<openerp>
+    <data>
+        <template id="index">
+        	<t t-call="website.layout">
+            	<title>Apply Now!</title>
+            	<!-- <t t-foreach="teachers" t-as="teacher"> -->
+              <!-- 1 -->
+              <!-- <p><t t-esc="teacher"/></p> -->
+              <!-- 2 -->
+              <!-- <p><t t-esc="teacher.id"/> <t t-esc="teacher.name"/></p>
+            </t>
+        </template> -->
+        <!-- 3rd change after integrating with website -->
+        			<div class="oe_structure">
+                    	<div class="container">
+                        	<t t-foreach="westros" t-as="west">
+                            	<p><t t-esc="west.id"/> <t t-esc="west.name"/></p>
+                        	</t>
+                    	</div>
+                	</div>
+            </t>
+        </template>
+    </data>
+</openerp>
+
+
+            
+                

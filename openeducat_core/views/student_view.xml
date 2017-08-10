@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_caste_category_form" model="ir.ui.view">
+            <field name="name">op.caste.categoryform</field>
+            <field name="model">caste.category</field>
+            <field name="arch" type="xml">
+                <form string="Caste Category">
+                    <sheet>
+                        <group colspan="4">
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_op_religion_category_form" model="ir.ui.view">
+            <field name="name">op.religion.categoryform</field>
+            <field name="model">religion.category</field>
+            <field name="arch" type="xml">
+                <form string="Religions:">
+                    <sheet>
+                        <group colspan="4">
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_op_subcaste_form" model="ir.ui.view">
+            <field name="name">op.subcaste.form</field>
+            <field name="model">subcaste.category</field>
+            <field name="arch" type="xml">
+                <form string="Subcaste">
+                    <sheet>
+                        <group colspan="4">
+                            <field name="scname"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="kanban_view_student">
+            <field name="name">Student Kanban</field>
+            <field name="model">op.student</field>
+            <field name="arch" type="xml">
+                <kanban class="o_hr_employee_kanban">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <a type="open">
+                                        <img
+                                            t-att-src="kanban_image('op.student', 'photo', record.id.value)"
+                                            class="oe_employee_picture" />
+                                    </a>
+                                </div>
+                                
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open">
+                                            <field name="name" />
+                                            <t
+                                                t-if="record.middle_name.raw_value">
+                                                <field name="middle_name" />
+                                            </t>
+                                            <t
+                                                t-if="record.last_name.raw_value">
+                                                <field name="last_name" />
+                                            </t>
+                                        </a>
+                                    </h4>
+                                    <ul>
+                                        <li t-if="record.batch_id.raw_value">
+                                            Batch:
+                                            <field name="batch_id" />
+                                        </li>
+                                        <li
+                                            t-if="record.roll_number.raw_value">
+                                            Roll Number:
+                                            <field name="roll_number" />
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <script>
+                                $('.oe_employee_picture').load(function()
+                                {
+                                if($(this).width() > $(this).height())
+                                {
+                                $(this).addClass('oe_employee_picture_wide')
+                                } });
+                            </script>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_op_student_tree" model="ir.ui.view">
+            <field name="name">op.student.tree</field>
+            <field name="model">op.student</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Student">
+                    <field name="roll_number" invisible="1"/>
+                    <field name="title" invisible="1"/>
+                    <field name="name" />
+                    <field name="middle_name" />
+                    <field name="last_name" />
+                    <field name="program_id" />
+                    <field name="batch_id" />
+                    <field name="emergency_contact" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_op_student_form" model="ir.ui.view">
+            <field name="name">op.student.form</field>
+            <field name="model">op.student</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Student">
+                    <header>
+                        <button string="Choose electives" type="object" attrs="{'invisible':[('subject_to_elect', '=', False)]}" class="oe_highlight" name="electives_wizard" context="{'course_id': course_id, 'student_id': id}"/>
+                        <button string="Apply For Changes" type="object" class="oe_highlight" name="apply_changes" groups="openeducat_core.group_op_student"/>
+                        <button string="Fee Payment" type="object" class="oe_highlight" name="fee_payment" groups="openeducat_core.group_op_student"/>
+                    </header>
+                    <sheet>
+                        <field name="photo" widget="image"
+                            class="oe_left oe_avatar" />
+                        <div name="title_name" class="oe_title">
+                            <h3>
+                                <field name="title" placeholder="Title"
+                                    style="width: 30%%" />
+                            </h3>
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <field name="name"
+                                                required="1"
+                                                placeholder="First Name"
+                                                style="padding-right:10px" />
+                                        </td>
+                                        <td>
+                                            <field name="middle_name"
+                                                placeholder="Middle Name"
+                                                style="padding-right:10px" />
+                                        </td>
+                                        <td>
+                                            <field name="last_name"
+                                                placeholder="Last Name"
+                                                style="padding-right:10px" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <notebook colspan="4">
+                            <page name="personal_information"
+                                string="Personal Information">
+                                <group col="4" colspan="4"
+                                    name="personal_detail">
+                                    
+                                    <!-- <field name="login"/> -->
+                                    <!-- <group>
+                                        <button string="Partne Locha Solution" type="object" class="oe_highlight" name="partner_locha"/>
+                                    </group> -->
+                                    <field name="user_default" string="Related User"/>
+                                    <field name="partner_id" string="Partner"/>
+                                    <field name="aadhar"/>
+                                    <field name="caste"/>
+                                    <field name="sub_caste"/>
+                                    <field name="religion"/>
+                                    <field name="minority" />
+                                    <field name="status" />
+                                    <field name="gender" />
+                                    <field name="birth_date" />
+                                    <field name="nationality" />
+                                    <field name="visa_info" />
+                                    <field name="aadhar"/>
+                                    <field name="lang" />
+                                    <field name="blood_group" />
+                                    <field name="emergency_contact"
+                                                context="{'show_address': 1}"
+                                                options='{"always_reload": True}' />
+                                    <!-- <field name="user_id" string="User" /> -->
+                                    <field name="id" invisible="1"/>
+                                    <field name="invoice_date" invisible="1"/>
+                                </group>
+                                <group string="Address Details"
+                                    name="address">
+                                    <label for="type" />
+                                    <div name="div_type">
+                                        <field class="oe_inline"
+                                            name="type" />
+                                    </div>
+                                    <label for="street" string="Temporary Address" />
+                                    <div name="div_address">
+                                        <field name="street"
+                                            placeholder="Street..." />
+                                        <field name="street2"
+                                            placeholder="Street2" />
+                                        <div class="address_format">
+                                            <field name="city"
+                                                placeholder="City"
+                                                style="width: 40%%" />
+                                            <field name="state_id"
+                                                class="oe_no_button"
+                                                placeholder="State"
+                                                style="width: 37%%"
+                                                options='{"no_open": True}' />
+                                            <field name="zip"
+                                                placeholder="ZIP"
+                                                style="width: 20%%" />
+                                            <field name="phone" 
+                                                placeholder="Phone Number" 
+                                                style="width: 20%%" /> 
+                                            <field name="mobile" 
+                                                placeholder="Mobile Number" 
+                                                style="width: 20%%" />  
+                                            
+                                       
+                                        </div>
+                                        <field name="country_id"
+                                            placeholder="Country" class="oe_no_button"
+                                            options='{"no_open": True}' />
+                                    </div>
+                                    <label for="street1" string="Permanent Address" />
+                                    <div name="div_address1">
+                                        <field name="street1"
+                                            placeholder="Street..." />
+                                        <field name="street22"
+                                            placeholder="Street2" />
+                                        <div class="address_format">
+                                            <field name="city1" 
+                                                placeholder="City"
+                                                style="width: 40%%" />
+                                            <field name="state_id1"
+                                                class="oe_no_button"
+                                                placeholder="State"
+                                                style="width: 37%%"
+                                                options='{"no_open": True}' />
+                                            <field name="zip1"
+                                                placeholder="ZIP"
+                                                style="width: 20%%" />
+                                            <field name="phone1" 
+                                                placeholder="Phone Number" 
+                                                style="width: 20%%" /> 
+                                            <field name="mobile1" 
+                                                placeholder="Mobile Number" 
+                                                style="width: 20%%" />
+                                        </div>
+                                        <field name="country_id1"
+                                            placeholder="Country" class="oe_no_button"
+                                            options='{"no_open": True}' />
+                                    </div>
+                                </group>
+                            </page>
+                            <page name="admission" string="Admission Details">
+                                <group col="4" colspan="4">
+                                    <field name="campus_id" />
+                                    <field name="institute_id" 
+                                        context="{'campus_id': campus_id,'get_parent_institute':1}" />
+                                    <field name="department_id"
+                                        context="{'institute_id': institute_id,'get_parent_department':1}" />
+                                    <field name="program_id" 
+                                        context="{'department_id': department_id,'get_parent_program':1}" />
+                                    <field name="program_type" 
+                                        context="{'program_id':program_id, 'get_parent_program_type':1}"/>
+                                    <field name="batch_id" context="{'program_id': program_id,'institute_id': institute_id, 'get_parent_batch':1}"/>
+                                    <field name="section_id"
+                                        context="{'batch_id': batch_id, 'program_id':program_id, 'program_type':program_type,'get_parent_section':1}" />
+                                    <field name="course_id" context="{'program_id': program_id, 'student_id': id, 'batch_id':batch_id, 'program_type':program_type, 'get_parent_course':1}" />
+                                    <field name='register_id'/>
+                                    <!-- <field name="gr_no" /> -->
+                                    <field name="admtype"/>
+                                    <field name="merit"/>
+                                    <field name="reg_no"/>
+                                    <!--<field name="roll_number" />
+                                    <separator colspan="4"
+                                        string="Assigned Roll Numbers" /> -->
+                                <!--    <field name="roll_number_line"
+                                        colspan="4" nolabel="1"
+                                        context="{'default_course_id':course_id,
+                                     'default_batch_id':batch_id}" />
+                                      needs modification -->
+                                </group>
+                            </page>
+                            <page name="educational" string="Educational">
+                                <group col="4" colspan="4" string="SSC">
+                                    <field name="school_namee" />
+                                    <field name="ssc_result" />
+                                </group>
+                                <group col="4" colspan="4" string="HSC">
+                                    <field name="school_name" />
+                                    <field name="hsc_result" />
+                                </group>
+                                <group col="4" colspan="4" string="Previous Institute">
+                                    <field name="prev_institute"/>
+                                    <field name="prev_institute_course"/>
+                                    <field name="cgpa"/>
+                                </group>
+                            </page>
+                                    
+                            <page name="course list" string="Courses">
+                                <group col="4" colspan="4">
+                                    <field name="course_ids" nolabel="1" domain="[('batch_id','=',batch_id),('program_id','=',program_id)]"/>
+                                            
+                                </group>
+                            </page>
+                            <page name="subject list" string="Subjects">
+                                <group>
+                                    <field name="subject_to_elect" invisible="1"/>
+                                    <field name="subjectrecord_ids" nolabel="1">
+                                        <tree string="Subjects" editable="top">
+                                            <field name="course_id"/>
+                                            <field name="subject_id"/>
+                                            <field name="subject_type"/>
+                                            <field name="select"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="result list" string="Results">
+                                <group>
+                                    <field name="result_ids" nolabel="1" context= "{'student_id': id, 'course_id':course_id}">
+                                        <tree string="Results" >
+                                            <field name="course_id"/>
+                                            <button string="View result" type="object" name='open_wizard' class="oe_highlight" />
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+
+                       
+                            <page name="scho" string="Scholarship">
+                                <group col="4" colspan="2">
+                                    <field name="scho_id2"/><br></br>
+                                </group>
+                            </page>
+                            <!-- <page name="hostel" string="Hostel Information">
+                                <group col="4" colspan="4">
+                                    <field name="hostel_display" nolabel="1">
+                                    </field>
+                                </group>
+                            </page> -->
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_op_student_search" model="ir.ui.view">
+            <field name="name">op.student.search</field>
+            <field name="model">op.student</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Student">
+                    <field name="name" />
+                    <field name="blood_group" />
+                    <!-- <field name="id_number" /> -->
+             <!--       <field name="course_id" /> -->
+                    <field name="batch_id" />
+                    <newline />
+                    <group expand="0" string="Group By...">
+                        <filter name="blood_group" string="Blood Group"
+                            domain="[]" context="{'group_by':'blood_group'}" />
+                        <filter name="nationality" string="Nationality"
+                            domain="[]" context="{'group_by':'nationality'}" />
+                        <filter name="language" string="Language"
+                            domain="[]" context="{'group_by':'language'}" />
+                        <filter name="batch" string="Batch"
+                            domain="[]" context="{'group_by':'batch_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_op_student_view">
+            <field name="name">Students</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.student</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="view_op_student_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_student_view_form">
+            <field name="act_window_id" ref="act_open_op_student_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_student_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_student_view_tree">
+            <field name="act_window_id" ref="act_open_op_student_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_op_student_tree" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_student_view_kanban">
+            <field name="act_window_id" ref="act_open_op_student_view" />
+            <field name="sequence" eval="5" />
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="kanban_view_student" />
+        </record>
+
+        <!-- FOR MY PROFILE VIEW -->
+
+        <record model="ir.actions.act_window" id="act_my_profile">
+            <field name="name">Students</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.student</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="search_view_id" ref="view_op_student_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_my_profile_kanban">
+            <field name="act_window_id" ref="act_my_profile" />
+            <field name="sequence" eval="5" />
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="kanban_view_student" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_my_profile_form">
+            <field name="act_window_id" ref="act_my_profile" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_student_form" />
+        </record>
+
+    </data>
+</odoo>

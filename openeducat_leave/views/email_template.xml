@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="notify_email" model="mail.template">
+            <field name="name">Change in Schedule</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field> 
+            <field name="subject">Change in schedule</field>
+            <field name="body_html">
+                <![CDATA[<p>Hello ${object.name},</p>
+            <p>Following changes in the schedule have been made:</p>
+            <tr>
+                % for t in ctx['timetable_ids']:
+                    <tr>
+                        Date: ${t.date} <br/>
+                        Period: ${t.timetable_id.period_id.name} <br/>
+                        Subject: ${t.timetable_id.subject_id.name} <br/>
+                        Classroom: ${t.timetable_id.classroom_id.name} <br/>
+                        % if t.new_faculty_id:
+                            Faculty: ${t.new_faculty_id.name} ${t.new_faculty_id.last_name} <br/>
+                        % else:
+                            CANCELLED
+                        %endif
+                    </tr>
+                    <br/><br/><br/>
+                % endfor
+                
+            </tr>
+            ]]>
+            </field>
+        </record>
+
+    </data>
+</odoo>

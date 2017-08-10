@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_op_invite applicants,name_op_invite_applicants,model_op_inviteapp,openeducat_core.group_op_student,1,1,0,0
+access_op_department,name_op_department,openeducat_core.model_op_department,openeducat_core.group_op_student,1,0,0,0
+access_op_caste,name_op_caste,openeducat_scholarship.model_caste_category,openeducat_core.group_op_student,1,0,0,0
+access_op_stu_apply,name_op_student_apply,openeducat_scholarship.model_stuapply,openeducat_core.group_op_student,1,1,1,0
+access_op_religion,name_op_religion,openeducat_scholarship.model_religion_category,openeducat_core.group_op_student,1,0,0,0
+access_op_career,name_op_career,openeducat_scholarship.model_career_category,openeducat_core.group_op_student,1,1,0,0
+access_op_applicationform,name_op_appform,openeducat_scholarship.model_applicationform,openeducat_core.group_op_student,1,1,1,0
+access_op_applicant_schotype,name_access_applicant_schotype,openeducat_scholarship.model_op_scholarship_type,openeducat_core.group_op_student,1,0,0,0

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_book_genre_form" model="ir.ui.view">
+            <field name="name">book.genre.form</field>
+            <field name="model">book_genre</field>
+            <field name="arch" type="xml">
+                <form string="Genre">
+                    <sheet>
+                        <group colspan="4">
+                            <field name="genre"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_other_books_form" model="ir.ui.view">
+            <field name="name">other.books.form</field>
+            <field name="model">other_books</field>
+            <field name="arch" type="xml">
+                <form string="Genre">
+                    <sheet>
+                        <group colspan="4">
+                            <field name="other"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_op_book_tree" model="ir.ui.view">
+            <field name="name">op.book.tree</field>
+            <field name="model">op.book</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Book">
+                    <field name="name" />
+                    <field name="code"/>
+                    <field name="isbn" />
+                    <field name="author_ids" />
+                    <field name="edition" />
+                    <field name="publisher_ids" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_op_book_form" model="ir.ui.view">
+            <field name="name">op.book.form</field>
+            <field name="model">op.book</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Book">
+                    <sheet>
+                        <div>
+                            <h1>
+                                <field name="name" placeholder="Book Name" style="width: 100%%" />
+                            </h1>
+                        </div>
+                        <newline/>
+                        <group col="4">
+                            <field name="code"/>
+                            <field name="author_ids" widget="many2many_tags" />
+                            <field name="publisher_ids" widget="many2many_tags" />
+                            <field name="isbn" />
+                            <field name="edition" />
+                        </group>
+                        <notebook colspan="4">
+                            <page name="education_details" string="Details">
+                                <group colspan="4">
+                                    <field name="book_type" widget="radio"/>
+                                    <field name="other_books_ids1" attrs="{'invisible':[('book_type', '!=', 'Other')]}"/>
+                                    <field name="genre_ids" widget="many2many_tags" attrs="{'invisible':[('book_type', '!=', 'Other')]}"/>
+                                    <field name="department_ids" widget="many2many_tags" attrs="{'invisible':[('book_type', '!=', 'Educational')]}"/>
+                                    <field name="tags" widget="many2many_tags" attrs="{'invisible':[('book_type', '!=', 'Educational')]}"/>
+                                    <field name="description" colspan="4" />
+                                </group>
+                            </page>
+                            <page name="units" string="Units">
+                                <field name="unit_ids" colspan="4" nolabel="1" />
+                            </page>
+                            <page name="movements" string="Movements" groups="openeducat_core.group_op_back_office,openeducat_library.group_op_library,openeducat_core.group_op_back_office_admin">
+                                <field name="movement_line" colspan="4" nolabel="1" />
+                            </page>
+                            <page name="book_queue_requests" string="Book Queue Requests">
+                                <field name="queue_ids" colspan="4" nolabel="1">
+                                    <tree string="Book Queue Request">
+                                        <field name="partner_id" />
+                                        <field name="date_from" />
+                                        <field name="date_to" />
+                                        <field name="state" />
+                                        <button name="do_accept" string="Accept" type="object"
+                                            states="request" icon="gtk-go-forward" groups="openeducat_library.group_op_library" />
+                                        <button name="do_reject" string="Reject" type="object"
+                                            states="request,accept" icon="terp-dialog-close"
+                                            groups="openeducat_library.group_op_library" />
+                                        <button name="do_request_again" string="Request Again"
+                                            states="reject" type="object" icon="STOCK_GO_BACK"
+                                            groups="openeducat_library.group_op_library" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <group>
+                            <button name="request_this_book" type="object" string="Request This Book" icon="fa-barcode" context="{'default_book_id': id}" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_op_book_search" model="ir.ui.view">
+            <field name="name">op.book.search</field>
+            <field name="model">op.book</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Book">
+                    <field name="name" />
+                    <field name="isbn" />
+                    <field name="tags" />
+                    <field name="unit_ids" />
+                    <field name="author_ids" />
+                    <field name="edition" />
+                    <field name="publisher_ids" />
+                    <newline />
+                    <group expand="0" string="Group By...">
+                        <filter string="Edition" domain="[]" context="{'group_by':'edition'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_op_book_view">
+            <field name="name">Books</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.book</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_op_book_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_book_view_form">
+            <field name="act_window_id" ref="act_open_op_book_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_book_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_book_view_tree">
+            <field name="act_window_id" ref="act_open_op_book_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_op_book_tree" />
+        </record>
+    </data>
+</odoo>

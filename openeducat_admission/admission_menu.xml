@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_op_admission_root" name="Admissions" sequence="30" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin,openeducat_admission.group_applicant"
+            web_icon="openeducat_admission,static/description/icon.png" />
+
+
+        <menuitem id="menu_op_admission_main" parent="menu_op_admission_root"
+            sequence="10" name="Admissions" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin,openeducat_admission.group_applicant"/>
+
+        <menuitem id="menu_admission_register" name="Admission Registers" sequence="20"
+            parent="menu_op_admission_main" action="act_open_op_admission_register_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+
+        <menuitem id="menu_admission" name="Admissions" sequence="10"
+            parent="menu_op_admission_main" action="act_open_op_admission_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin,group_applicant"/>
+
+        <menuitem id="menu_admission_analysis" name="Admission Analysis" sequence="30"
+            parent="menu_op_admission_main" action="admission_analysis_act" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+
+        <!-- Menu for Applicant: -->
+
+        <!-- <menuitem id="menu_op_admission_main2" parent="menu_op_admission_root"
+            sequence="40" name="Apply Now!" groups="group_applicant,openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+
+        <menuitem id="menu_applicant" name="Applicants" sequence="50"
+            parent="menu_op_admission_main2" action="admission_applynow" groups="openeducat_admission.group_applicant,openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/> -->
+
+    </data>
+</odoo>

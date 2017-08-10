@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="apply_for_changes_student_form_view">
+            <field name="name">op.student.form</field>
+            <field name="model">op.student</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='result list']" position="after">
+                    <page name="applyforchange" string="Apply for Changes">
+                        <group colspan="2">
+                            <field name="apply_id"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mt_apply_for_st_change_submit" model="mail.message.subtype">
+            <field name="name">Submit</field>
+            <field name="res_model">op.applyy</field>
+            <field name="default" eval="True"/>
+            <field name="description">Submit</field>
+        </record>
+        <record id="mt_apply_for_st_change_confirm" model="mail.message.subtype">
+            <field name="name">Confirm</field>
+            <field name="res_model">op.applyy</field>
+            <field name="default" eval="True"/>
+            <field name="description">Confirm</field>
+        </record>
+        <record id="mt_apply_for_st_change_reject" model="mail.message.subtype">
+            <field name="name">Reject</field>
+            <field name="res_model">op.applyy</field>
+            <field name="default" eval="True"/>
+            <field name="description">Reject</field>
+        </record>
+        <record id="mt_apply_for_st_change_cancel" model="mail.message.subtype">
+            <field name="name">Cancel</field>
+            <field name="res_model">op.applyy</field>
+            <field name="default" eval="True"/>
+            <field name="description">Cancel</field>
+        </record>
+        <record id="mt_apply_for_st_change_done" model="mail.message.subtype">
+            <field name="name">Done</field>
+            <field name="res_model">op.applyy</field>
+            <field name="default" eval="True"/>
+            <field name="description">Done</field>
+        </record>
+        <record id="view_op_applyy_tree" model="ir.ui.view">
+            <field name="name">op.applyy.tree</field>
+            <field name="model">op.applyy</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Apply For Changes">
+                    <field name="student_id" />
+                    <!-- <field name="name" string="First Name"/>
+                    <field name="prev_mn" string="Middle Name"/>
+                    <field name="prev_ln" string="Last Name"/> -->
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_op_applyy_form">
+            <field name="name">op.applyy.form</field>
+            <field name="model">op.applyy</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Apply Changes">
+                        <header groups="base.group_user">
+                            <button name="submit_changes" string="Submit" type="object" class="oe_highlight" states="draft"/>
+                            
+                            <button name="confirm_changes" string="Confirm" type="object" class="oe_highlight" groups="openeducat_core.group_op_back_office, openeducat_core.group_back_office_admin" states="submit"/>
+
+                            <button name="reset_to_draft" string="Reset to Draft" type="object"  states="reject"/>
+                            <button name="done_changes" string="Done" type="object" class="oe_highlight" states="confirm" groups="openeducat_core.group_op_back_office, openeducat_core.group_back_office_admin"/>
+                            <button name="reject_changes" string="Reject" type="object" class="oe_highlight" />
+                            <button name="cancel_changes" string="Cancel" type="object" states="confirm, reject, submit" groups="openeducat_core.group_op_back_office, openeducat_core.group_back_office_admin"/>
+                            
+                            <field name="state" widget="statusbar" statusbar_visible="draft, submit, confirm, reject, cancel, done" statusbar_colors="{&quot;confirm&quot;:&quot;blue&quot;,&quot;accept&quot;:&quot;blue&quot;,&quot;reject&quot;:&quot;red&quot;}"/>
+                        </header>
+                        <sheet>
+                        <label name="message" string="Kindly attach your legal documents for the required changes, if any."/>
+                        <group cols="4" colspan="4">
+                            <field name="student_id"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page name="personal_detail" string="Personal Details">
+                                <group colspan="4" cols="4">
+
+                                    <field name="login"/>
+                                    <field name="prev_login" attrs="{'invisible':[('login', '=', False)]}"/>
+                                    <field name="new_login" attrs="{'invisible':[('login', '=', False)], 'required':[('login', '=', True)]}"/>
+
+                                    <field name="email"/>
+                                    <field name="prev_email" attrs="{'invisible':[('email', '=', False)]}"/>
+                                    <field name="new_email" attrs="{'invisible':[('email', '=', False)], 'required':[('email', '=', True)]}"/>
+
+                                    <field name="first_name"/>
+                                    <field name="prev_fn" 
+                                        attrs="{'invisible':[('first_name', '=', False)]}"  />
+                                    <field name="new_fn" attrs="{'invisible':[('first_name', '=', False)], 'required':[('first_name', '=', True)]}"/>
+
+                                    <field name="middle_name"/>
+                                    <field name="prev_mn" attrs="{'invisible':[('middle_name', '=', False)]}"/>
+                                    <field name="new_mn" attrs="{'invisible':[('middle_name', '=', False)], 'required':[('middle_name', '=', True)]}"/>
+
+                                    <field name="last_name"/>
+                                    <field name="prev_ln" attrs="{'invisible':[('last_name', '=', False)]}"/>
+                                    <field name="new_ln" attrs="{'invisible':[('last_name', '=', False)], 'required':[('last_name', '=', True)]}"/>
+
+                                    <field name="birth_date" />
+                                    <field name="prev_bd" attrs="{'invisible':[('birth_date', '=', False)]}"/>
+                                    <field name="new_bd" attrs="{'invisible':[('birth_date', '=', False)], 'required':[('birth_date', '=', True)]}"/> 
+
+                                    <field name="caste" />
+                                    <field name="prev_caste" attrs="{'invisible':[('caste', '=', False)]}"/>
+                                    <field name="new_caste" attrs="{'invisible':[('caste', '=', False)], 'required':[('caste', '=', True)]}"/>
+
+                                    <field name="sub_caste"/>
+                                    <field name="prev_sub" attrs="{'invisible':[('sub_caste', '=', False)]}"/>
+                                    <field name="new_sub" attrs="{'invisible':[('sub_caste', '=', False)], 'required':[('sub_caste', '=', True)]}"/>
+
+                                    <field name="religion"/>
+                                    <field name="prev_re" attrs="{'invisible':[('religion', '=', False)]}"/>
+                                    <field name="new_re" attrs="{'invisible':[('religion', '=', False)], 'required':[('religion', '=', True)]}"/>
+
+                                    <field name="status"/>
+                                    <field name="prev_status" attrs="{'invisible':[('status', '=', False)]}"/>
+                                    <field name="new_status" attrs="{'invisible':[('status', '=', False)], 'required':[('status', '=', True)]}"/>
+
+                                    <field name="aadhar"/>
+                                    <field name="prev_aadhar" attrs="{'invisible':[('aadhar', '=', False)]}"/>
+                                    <field name="new_aadhar" attrs="{'invisible':[('aadhar', '=', False)], 'required':[('aadhar', '=', True)]}"/>
+
+                                    <field name="visa_info"/>
+                                    <field name="prev_visa" attrs="{'invisible':[('visa_info', '=', False)]}"/>
+                                    <field name="new_visa" attrs="{'invisible':[('visa_info', '=', False)], 'required':[('visa_info', '=', True)]}"/>
+                                </group>
+                            </page>
+                            <page name="address_detail" string="Address Details">
+                                <group string="Temporary Address">
+                                    <field name="temp_address"/>
+                                </group>
+                                <group>
+                                    <label for="prev_street" string="Previous Record" attrs="{'invisible':[('temp_address', '=', False)]}"/>
+                                        <div name="div_address">
+                                            <field name="prev_street" attrs= "{'invisible':[('temp_address', '=', False)]}"/>
+                                            <field name="prev_street2" attrs= "{'invisible':[('temp_address', '=', False)]}"/>
+                                            <div class="address_format">
+                                                <field name="prev_city" attrs= "{'invisible':[('temp_address', '=', False)]}"
+                                                    style="width: 40%%" />
+                                                <field name="prev_state_id" attrs= "{'invisible':[('temp_address', '=', False)]}"
+                                                    class="oe_no_button"
+                                                    style="width: 37%%"
+                                                    options='{"no_open": True}' />
+                                                <field name="prev_zip" attrs= "{'invisible':[('temp_address', '=', False)]}"
+                                                    style="width: 20%%" />
+                                                <field name="prev_country_id" attrs= "{'invisible':[('temp_address', '=', False)]}"
+                                                 class="oe_no_button"
+                                                options='{"no_open": True}' />
+                                            </div>
+                                        </div>
+                                        <label for="new_street" string="New Record" attrs= "{'invisible':[('temp_address', '=', False)]}" />
+                                        <div name="div_address1">
+                                            <field name="new_street"
+                                                placeholder="Street..." attrs= "{'invisible':[('temp_address', '=', False)], 'required':[('temp_address', '=', True)]}"/>
+                                            <field name="new_street2"
+                                                placeholder="Street2" attrs= "{'invisible':[('temp_address', '=', False)] ,'required':[('temp_address', '=', True)]}" />
+                                            <div class="address_format">
+                                                <field name="new_city" attrs= "{'invisible':[('temp_address', '=', False)],'required':[('temp_address', '=', True)]}"
+                                                    placeholder="City"
+                                                    style="width: 40%%" />
+                                                <field name="new_state_id" attrs= "{'invisible':[('temp_address', '=', False)],'required':[('temp_address', '=', True)]}"
+                                                    class="oe_no_button"
+                                                    placeholder="State"
+                                                    style="width: 37%%"
+                                                    options='{"no_open": True}' />
+                                                <field name="new_zip" attrs= "{'invisible':[('temp_address', '=', False)],'required':[('temp_address', '=', True)]}"
+                                                    placeholder="ZIP"
+                                                    style="width: 20%%" />
+                                                <field name="new_country_id" attrs= "{'invisible':[('temp_address', '=', False)],'required':[('temp_address', '=', True)]}"
+                                                placeholder="Country" class="oe_no_button"
+                                                options='{"no_open": True}' />
+                                            </div>
+                                        </div>
+                                </group>
+                                <group colspan="4" cols="4">
+                                    <field name="phonee"/>
+                                    <field name="prev_phone1" attrs="{'invisible':[('phonee', '=', False)]}"/>
+                                    <field name="new_phone1" attrs="{'invisible':[('phonee', '=', False)],'required':[('phonee', '=', True)]}"/>
+                                    <field name="mobilee"/>
+                                    <field name="prev_mobile1" attrs="{'invisible':[('mobilee', '=', False)]}"/>
+                                    <field name="new_mobile1" attrs="{'invisible':[('mobilee', '=', False)],'required':[('mobilee', '=', True)]}"/>
+                                </group>
+                                <group string="Permanent Address">
+                                    <field name="per_address"/>
+                                </group>
+                                <group>
+                                    <label for="prev_street1" string="Previous Record" attrs="{'invisible':[('per_address', '=', False)]}"/>
+                                        <div name="div_address2">
+                                            <field name="prev_street1" attrs= "{'invisible':[('per_address', '=', False)]}"/>
+                                            <field name="prev_street22" attrs= "{'invisible':[('per_address', '=', False)]}"/>
+                                            <div class="address_format">
+                                                <field name="prev_city1" attrs= "{'invisible':[('per_address', '=', False)]}"
+                                                    style="width: 40%%" />
+                                                <field name="prev_state_id1" attrs= "{'invisible':[('per_address', '=', False)]}"
+                                                    class="oe_no_button"
+                                                    style="width: 37%%"
+                                                    options='{"no_open": True}' />
+                                                <field name="prev_zip1" attrs= "{'invisible':[('per_address', '=', False)]}"
+                                                    style="width: 20%%" />
+                                                <field name="prev_country_id1" attrs= "{'invisible':[('per_address', '=', False)]}"
+                                                 class="oe_no_button"
+                                                options='{"no_open": True}' />
+                                            </div>
+                                        </div>
+                                        <label for="new_street1" string="New Record" attrs= "{'invisible':[('per_address', '=', False)]}" />
+                                        <div name="div_address3">
+                                            <field name="new_street1"
+                                                placeholder="Street..." attrs= "{'invisible':[('per_address', '=', False)],'required':[('per_address', '=', True)]}"/>
+                                            <field name="new_street22"
+                                                placeholder="Street2" attrs= "{'invisible':[('per_address', '=', False)],'required':[('per_address', '=', True)]}" />
+                                            <div class="address_format">
+                                                <field name="new_city1" attrs= "{'invisible':[('per_address', '=', False)],'required':[('per_address', '=', True)]}"
+                                                    placeholder="City"
+                                                    style="width: 40%%" />
+                                                <field name="new_state_id1" attrs= "{'invisible':[('per_address', '=', False)],'required':[('per_address', '=', True)]}"
+                                                    class="oe_no_button"
+                                                    placeholder="State"
+                                                    style="width: 37%%"
+                                                    options='{"no_open": True}' />
+                                                <field name="new_zip1" attrs= "{'invisible':[('per_address', '=', False)],'required':[('per_address', '=', True)]}"
+                                                    placeholder="ZIP"
+                                                    style="width: 20%%" />
+                                                <field name="new_country_id1" attrs= "{'invisible':[('per_address', '=', False)],'required':[('per_address', '=', True)]}"
+                                                placeholder="Country" class="oe_no_button"
+                                                options='{"no_open": True}' />
+                                            </div>
+                                        </div>
+                                </group>
+                                <group colspan="4" cols="4">
+                                    <field name="phone2"/>
+                                    <field name="prev_phone" attrs="{'invisible':[('phone2', '=', False)]}"/>
+                                    <field name="new_phone" attrs="{'invisible':[('phone2', '=', False)],'required':[('phone2', '=', True)]}"/>
+                                    <field name="mobile2"/>
+                                    <field name="prev_mobile" attrs="{'invisible':[('mobile2', '=', False)]}"/>
+                                    <field name="new_mobile" attrs="{'invisible':[('mobile2', '=', False)],'required':[('mobile2', '=', True)]}"/>
+                                </group>
+                            </page>
+                            <page name="parent_detail" string="Parent Details">
+                                <group string="Personal Details">
+                                    <field name="prev"/>
+                                    <field name="select" attrs="{'invisible':[('prev', '=' ,False)]}"/>
+                                    <field name="parent_name" attrs="{'invisible':[('prev', '=' ,False)]}"/>
+                                    <field name="parent_email" attrs="{'invisible':[('prev', '=' ,False)]}"/>
+                                    <field name="aadharcardno" attrs="{'invisible':[('prev', '=' ,False)]}"/>
+                                    <field name="bankacnumber" attrs="{'invisible':[('prev', '=' ,False)]}"/>
+                                    <field name="pancardno" attrs="{'invisible':[('prev', '=' ,False)]}"/>
+                                </group>
+                                <group>
+                                    <label name="txt" string="Enter New Records" attrs="{'invisible':[('prev', '=' ,False)]}" colspan="4"/>
+                                    <field name="new_select" attrs="{'invisible':[('prev', '=' ,False)],'required':[('prev', '=', True)]}"/>
+                                    <field name="new_parent_name" attrs="{'invisible':[('prev', '=' ,False)],'required':[('prev', '=', True)]}"/>
+                                    <field name="new_parent_email" attrs="{'invisible':[('prev', '=' ,False)],'required':[('prev', '=', True)]}"/>
+                                    <field name="new_aadharcardno" attrs="{'invisible':[('prev', '=' ,False)]}"/>
+                                    <field name="new_bankacnumber" attrs="{'invisible':[('prev', '=' ,False)]}"/>
+                                    <field name="new_pancardno" attrs="{'invisible':[('prev', '=' ,False)]}"/>
+                                </group>
+                                <group string="Address Details">
+                                    <field name="add"/>
+                                </group>
+                                <group>
+                                    <label for="pprev_street1" string="Previous Record" attrs="{'invisible':[('add', '=', False)]}"/>
+                                        <div name="div_address5">
+                                            <field name="pprev_street1" attrs= "{'invisible':[('add', '=', False)]}"/>
+                                            <field name="pprev_street22" attrs= "{'invisible':[('add', '=', False)]}"/>
+                                            <div class="address_format">
+                                                <field name="pprev_city1" attrs= "{'invisible':[('add', '=', False)]}"
+                                                    style="width: 40%%" />
+                                                <field name="pprev_state_id1" attrs= "{'invisible':[('add', '=', False)]}"
+                                                    class="oe_no_button"
+                                                    style="width: 37%%"
+                                                    options='{"no_open": True}' />
+                                                <field name="pprev_zip1" attrs= "{'invisible':[('add', '=', False)]}"
+                                                    style="width: 20%%" />
+                                                <field name="pprev_country_id1" attrs= "{'invisible':[('add', '=', False)]}"
+                                                 class="oe_no_button"
+                                                options='{"no_open": True}' />
+                                            </div>
+                                        </div>
+                                        <label for="pnew_street1" string="New Record" attrs= "{'invisible':[('add', '=', False)]}" />
+                                        <div name="div_address6">
+                                            <field name="pnew_street1"
+                                                placeholder="Street..." attrs= "{'invisible':[('add', '=', False)],'required':[('add', '=', True)]}"/>
+                                            <field name="pnew_street22"
+                                                placeholder="Street2" attrs= "{'invisible':[('add', '=', False)],'required':[('add', '=', True)]}" />
+                                            <div class="address_format">
+                                                <field name="pnew_city1"
+                                                 attrs= "{'invisible':[('add', '=', False)],'required':[('add', '=', True)]}"
+                                                    placeholder="City"
+                                                    style="width: 40%%" />
+                                                <field name="pnew_state_id1" attrs= "{'invisible':[('add', '=', False)]}"
+                                                    class="oe_no_button"
+                                                    placeholder="State"
+                                                    style="width: 37%%"
+                                                    options='{"no_open": True}' />
+                                                <field name="pnew_zip1" 
+                                                    attrs= "{'invisible':[('add', '=', False)],'required':[('add', '=', True)]}"
+                                                    placeholder="ZIP"
+                                                    style="width: 20%%" />
+                                                <field name="pnew_country_id1" 
+                                                    attrs= "{'invisible':[('add', '=', False)],'required':[('add', '=', True)]}"
+                                                placeholder="Country" class="oe_no_button"
+                                                options='{"no_open": True}' />
+                                            </div>
+                                        </div>
+                                </group>
+                                <group string="Contact Details" colspna="4" cols="4">
+                                    <field name="con"/>
+                                    <field name="pprev_phone" attrs="{'invisible':[('con', '=', False)]}"/>
+                                    <field name="pnew_phone" attrs="{'invisible':[('con', '=', False)],'required':[('con', '=', True)]}"/> 
+                                    <field name="con1"/>
+                                    <field name="pprev_mobile" attrs="{'invisible':[('con1', '=', False)]}"/>  
+                                    <field name="pnew_mobile" attrs="{'invisible':[('con1', '=', False)],'required':[('con1', '=', True)]}"/>
+                                </group>
+                                
+                                    
+                                    
+                                    <!-- <label name="yas" string="Enter New Records" attrs="{'invisible':[('con', '=', False)]}" colspan="4"/> -->
+                                    
+                               
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_op_apply_changes_view">
+            <field name="name">Apply For Changes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.applyy</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="search_view_id" ref="view_op_student_search" /> -->
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_apply_changes_form">
+            <field name="act_window_id" ref="act_open_op_apply_changes_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_applyy_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_apply_changes_tree">
+            <field name="act_window_id" ref="act_open_op_apply_changes_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_op_applyy_tree" />
+        </record>
+    </data>
+</odoo>

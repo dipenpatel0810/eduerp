@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_section_tree" model="ir.ui.view">
+            <field name="name">op.section.tree</field>
+            <field name="model">op.section</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Section">
+                    <field name="name" />
+                    <field name="batch_id"/>
+                    <field name="code" />
+                    <field name="campus_id" />
+                    <field name="institute_id" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_op_section_form" model="ir.ui.view">
+            <field name="name">op.section.form</field>
+            <field name="model">op.section</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Section">
+                    <sheet>
+                        <group col="4" name="main">
+                            <field name="name" />
+                            <field name="code" />
+                            <field name="campus_id" />
+                            <field name="institute_id" 
+                                context="{'campus_id': campus_id,'get_parent_institute':1}" />
+                            <field name="department_id"
+                                context="{'institute_id': institute_id,'get_parent_department':1}" />
+                            <field name="program_id"
+                                context="{'department_id': department_id,'get_parent_program':1}" />
+                            <field name="program_type" context="{'program_id':program_id, 'get_parent_program_type':1}"/>
+                            <field name="batch_id"
+                                context="{'institute_id': institute_id,'program_id':program_id, 'get_parent_batch':1}" />
+                        </group>
+                        <group string="Student" name="student">
+                            <field name="student_ids" nolabel="1" domain="[('program_id','=',program_id)]"/>
+                        </group>
+                        <group string="Faculty Records">
+                            <field name="faculty_subject_ids" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_op_section_view">
+            <field name="name">Sections</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.section</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_section_view_form">
+            <field name="act_window_id" ref="act_open_op_section_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_section_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_section_view_tree">
+            <field name="act_window_id" ref="act_open_op_section_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_op_section_tree" />
+        </record>
+    </data>
+</odoo>

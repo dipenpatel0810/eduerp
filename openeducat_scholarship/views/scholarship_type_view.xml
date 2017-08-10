@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data> 
+       <record id="view_op_crit_category_form" model="ir.ui.view">
+            <field name="name">op.evalcrit.type.form</field>
+            <field name="model">op.evalcrit.type</field>
+            <field name="arch" type="xml">
+                <form string="Criteria Categories:">
+                    <sheet>
+                        <group colspan="2">
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record> 
+        <record id="view_op_sch_type_form" model="ir.ui.view">
+            <field name="name">op.scholarshiptype.form</field>
+            <field name="model">op.scholarshiptype</field>
+            <field name="arch" type="xml">
+                <form string="Scholarship Type:">
+                    <sheet>
+                        <group colspan="4">
+                            <field name="name"/>
+                            <field name="eval_type" widgets="many2many_tags"/>
+                        </group>
+                        <group string="Requirements" colspan="2" cols="2" rows="4">
+                            <field name="percentage_req"/> 
+                            <field name="income_req" />
+                            <field name="sport_req"/>
+                            <field name="caste_req" />
+                            <field name="research_req" />
+                            <field name="gender_req" />
+                            <field name="religion_req" />
+                            <field name="career_req" /> 
+                            <field name="college_req" />
+                            <field name="achi_req" />
+                            <field name="bond_req" />
+                            <field name="brand_req"/>
+                            <field name="contest_req"/>
+
+
+                            <!--<field name="medical_req"/>-->
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_op_scholarship_type_tree" model="ir.ui.view">
+            <field name="name">op.scholarship.type.tree</field>
+            <field name="model">op.scholarship.type</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Scholarship Schemes">
+                    <field name="scheme_id" sequence="1"/>
+                    <field name="name" sequence="2"/>
+                    <field name="intended_for"/>
+                    <field name="scho_type"/>
+                    <field name="additional_note"/>
+                    <field name="amount"/>
+                    <field name="department_ids"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_op_scholarship_type_form" model="ir.ui.view">
+            <field name="name">op.scholarship.type.form</field>
+            <field name="model">op.scholarship.type</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Scholarship Schemes">
+                    <sheet>
+                        <group cols="2" colspan="2">
+                            <field name="scheme_id" sequence="1"/>
+                            <field name="name" sequence="2"/>
+                            <group string="Educational Details" colspan="2">
+                                    <field name="campus_id" />
+                                    <field name="institute_id" 
+                                        context="{'campus_id': campus_id,'get_parent_institute':1}" />
+                                    <field name="department_ids"/>
+                                        <!--context="{'institute_id': institute_id,'get_parent_department':1}"/>-->
+                                    <field name="program_ids"/>
+                                        <!--context="{'department': department,'get_parent_program':1}" />-->
+                                    <field name="batch_id" widget="many2many_tags"/>
+                                        <!--context="{'institute_id': institute_id,'get_parent_batch':1}"
+                                        domain="[('institute_id', '=', institute_id)]"  />-->
+                                </group>
+                                <group string="Scholarship Details" colspan="4">
+                                    <field name="scho_type"/>
+                                    <field name="intended_for" attrs="{'required': [('scho_caste_req', '=',True)]}" widget="many2many_tags"/>
+                                    <field name="scho_caste_req" invisible="1"/> 
+                                    <field name="sponsor"/>
+                                    <field name="amount" />
+                                    <field name="req_att"/>
+                                </group>
+                        </group>
+                       
+                        <group string="Disbursement Details">
+                            <field name="candidates"/>
+                            <field name="sch_amount"/>
+                            <field name="interval"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <notebook>
+                            <page string="Requirement Details">
+                                <group colspan="4">
+
+                                    
+
+                                    <field name="needed_documents"/>
+                                    <field name="percentage" attrs="{'required': [('scho_percentage_req', '=' , True)]}"/>
+
+                                    <field name="scho_percentage_req" invisible="1"/>
+                                    <field name="percentile" attrs="{'required': [('scho_percentage_req', '=' , True)]}"/>
+                                    <!--<field name="scho_percentage_req" invisible="1"/>-->
+                                    <field name="income" attrs="{'required': [('scho_income_req', '=' , True)]}"/>
+                                    <field name="scho_income_req" invisible="1"/>
+
+                                    <field name="sport_name" attrs="{'required': [('scho_sport_req', '=' , True)]}"/>
+                                    <field name="scho_sport_req" invisible="1"/>
+                                    <field name="other_sport" attrs="{'required':[('sport_name','=','Other'),('scho_sport_req', '=' , True)], 'invisible':[('sport_name','!=','Other')]}"/>
+                                    <field name="scho_sport_req" invisible="1"/>
+
+                                    <field name="research" attrs="{'required': [('scho_research_req', '=' , True)]}"/>
+                                    <field name="scho_research_req" invisible="1"/>
+                                    <field name="gender" attrs="{'required': [('scho_gender_req', '=' , True)]}"/>
+
+                                    <field name="scho_gender_req" invisible="1"/>
+                                    <field name="religion" attrs="{'required': [('scho_religion_req', '=' , True)]}" widget="many2many_tags"/>
+                                    <field name="scho_religion_req" invisible="1"/>
+                                    <field name="career" attrs="{'required': [('scho_career_req', '=' , True)]}" widget="many2many_tags"/>
+                                    <field name="career_desc" attrs="{'required': [('scho_career_req', '=' , True)]}"/>
+                                    <field name="scho_career_req" invisible="1"/>
+
+                                    <field name="achievement" attrs="{'required': [('scho_achi_req', '=' , True)]}"/>
+                                    <field name="scho_achi_req" invisible="1"/>
+                                    <field name="achi" attrs="{'required':[('achievement','=','Yes'),('scho_achi_req', '=' , True)], 'invisible':[('achievement','!=','Yes')]}"/>
+                                    <field name="bond" attrs="{'required': [('scho_bond_req', '=' , True)]}"/>
+                                    <field name="scho_bond_req" invisible="1"/>
+
+
+                                    <field name="additional_note"/>
+
+                                    <!--<field name="percent1" attrs="{'required':[('scho_type','=','Merit-based Scholarship')]}"/>
+                                    <field name="income" attrs="{'required':[('scho_no','=','2')]}"/>
+                                    <field name="sport_name" attrs="{'required':[('scho_no','=','3')], 'invisible':[('scho_no','!=','3')]}" />
+                                    <field name="other_sport" attrs="{'required':[('sport_name','=','5')], 'invisible':[('sport_name','!=','5')]}"/>
+                                    <field name="research" attrs="{'required':[('scho_no','=','4')]}"/>-->
+                                    
+                                </group>
+                            </page>
+                        
+                        
+                            <page string="Sponsor Details">
+                                <group colspan="4">
+                                    <field name="org_name" attrs="{'required': [('scho_college_req', '=' , True)]}"/>
+                                    <field name="scho_college_req" invisible="1"/>
+                                    <field name="sponsor_name" attrs="{'required': [('scho_college_req', '=' , True)]}"/>
+                                    <field name="sponsor_email_id"/>
+                                    <field name="sponsor_contact_no" attrs="{'required': [('scho_college_req', '=' , True)]}"/>
+                                    <field name="sponsor_address"/>
+                                </group>
+                            </page>
+                            <page string="Brand Details">
+                                <group colspan="4">
+                                    <field name="brand_name" attrs="{'required': [('scho_brand_req', '=' , True)]}"/>
+                                    <field name="scho_brand_req" invisible="1"/>
+                                    <field name="brand_org"/>
+                                    <field name="brand_no" attrs="{'required': [('scho_brand_req', '=' , True)]}"/>
+                                    <field name="scho_brand_req" invisible="1"/>
+                                    <field name="brand_mail"/>
+                                    <field name="promoting" attrs="{'required': [('scho_brand_req', '=' , True)]}"/>
+                                    <field name="scho_brand_req" invisible="1"/>
+                                    <field name="prod_details"/>
+                                </group>
+                            </page>
+                            <page string="Contest Details">
+                                <group colspan="4">
+                                    <field name="contest" attrs="{'required': [('scho_contest_req', '=' , True)]}"/>
+                                    <field name="scho_contest_req" invisible="1"/>
+                                
+                                    <field name="contest_details" attrs="{'required': [('scho_contest_req', '=' , True)]}"/>
+                                    <field name="scho_contest_req" invisible="1"/>
+                                </group>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_op_scholarship_type_search" model="ir.ui.view">
+            <field name="name">op.scholarship.type.search</field>
+            <field name="model">op.scholarship.type</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Tag">
+                    <field name="name" />
+                    <field name="amount" />
+                    <newline />
+                    <group expand="0" string="Group By...">
+                        <filter string="Name" domain="[]" context="{'group_by':'name'}" />
+                        <filter string="Amount" domain="[]" context="{'group_by':'amount'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_op_scholarship_type_view">
+            <field name="name">Scholarship Schemes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.scholarship.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_op_scholarship_type_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+       <!-- <record model="ir.actions.act_window.view" id="act_open_op_scholarship_type_view_form">
+            <field name="act_window_id" ref="act_open_op_scholarship_type_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_scholarship_type_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_scholarship_type_view_tree">
+            <field name="act_window_id" ref="act_open_op_scholarship_type_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_op_scholarship_type_tree" />
+        </record>-->
+    </data>
+</odoo>

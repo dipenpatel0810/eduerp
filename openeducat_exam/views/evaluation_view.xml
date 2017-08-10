@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_evaluation_tree" model="ir.ui.view">
+            <field name="name">op.evaluation.tree</field>
+            <field name="model">op.evaluation</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Evaluation Methods">
+                    <field name="name"/>
+                    <field name="exam_type_id"/>
+                    <field name="max_marks"/>
+                    <field name="pass_marks"/>
+                    <field name="weightage"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_op_evaluation_form" model="ir.ui.view">
+            <field name="name">op.evaluation.form</field>
+            <field name="model">op.evaluation</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Evaluation Methods">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="exam_type_id"/>
+                            <field name="max_marks"/>
+                            <field name="pass_marks"/>
+                            <field name="weightage"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

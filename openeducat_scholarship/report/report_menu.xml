@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <report
+            id="menu_report_scholarship_generate"
+            string="Generate Scholarship Application"
+            model="scholarship.report"
+            report_type="qweb-pdf"
+            file="openeducat_scholarship.report_scholarship_generate"
+            name="openeducat_scholarship.report_scholarship_generate"
+            menu="True"
+        />
+    </data>
+</odoo>

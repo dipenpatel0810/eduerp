@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_faculty_subject_tree" model="ir.ui.view">
+            <field name="name">op.faculty.subject.tree</field>
+            <field name="model">op.faculty.subject</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Faculty Subject Records" colors="#0000ff:status=='active';red:status=='inactive'">
+                    <field name="subject_id" />
+                    <field name="faculty_id" />
+                    <field name="status" />
+                    <field name="batch_id" />
+                    <field name="section_id" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_op_faculty_subject_form" model="ir.ui.view">
+            <field name="name">op.faculty.subject.form</field>
+            <field name="model">op.faculty.subject</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Faculty Subject Record">
+                    <sheet>
+                        <group>
+                            <field name="subject_id"/>
+                            <field name="department_id" invisible="1"/>
+                            <field name="institute_id" invisible="1"/>
+                            <field name="program_id" />
+                            <field name="program_type" context="{'program_id':program_id, 'get_parent_program_type':1}"/>
+                            <field name="batch_id" context="{'program_id': program_id,'institute_id': institute_id, 'get_parent_batch':1}"/>
+                            <field name="faculty_id"/>
+                            <field name="course_id" context="{'subject_id':subject_id}"/>
+                            <field name="section_id" context="{'batch_id': batch_id, 'program_id':program_id,'get_parent_section':1}" />
+                            <field name="status"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

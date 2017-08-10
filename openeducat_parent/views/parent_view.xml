@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="parent_student_form_view">
+            <field name="name">op.student.form</field>
+            <field name="model">op.student</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='educational']" position="after">
+                    <page name="parents" string="Parents">
+                        <group colspan="2">
+                            <field name="select"/>
+                            <field name="user_parent"/>
+                            <field name="parent_email"/> 
+                            <field name="aadharcardno"/>
+                            <field name="bankacnumber"/>
+                            <field name="pancardno"/>
+                        </group>
+                        <separator string="Address Details"/>
+                            <field name="pstreet"/>
+                            <field name="pstreet2"/>
+                            <field name="pcity"/>
+                            <field name="pstate_id"/>
+                            <field name="pzip"/>
+                            <field name="pcountry_id"/>
+                        <!-- </group> -->
+                        <group string="Contact Details">
+                            <field name="pphone" string="Phone"/>
+                            <field name="pmobile" string="Mobile"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="parent_admission_form_view">
+            <field name="name">op.admission.form</field>
+            <field name="model">op.admission</field>
+            <field name="inherit_id" ref="openeducat_admission.view_op_admission_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='personal_detail']" position="after">
+                    <page name="parents" string="Parent Details">
+                        <group colspan="4" col="2">
+                            <button name="parent_wizard" string="Create Parent" type="object"
+                                attrs="{'invisible':['|', ('state', '!=', 'draft'),('state','!=', 'confirm'),('parent', '=', False)]}" />
+                        </group>
+                        <group colspan="4" col="2" string="Personal Details" attrs="{'invisible':['|', ('state', '=', 'draft')]}"> 
+                            <field name='select' attrs="{'invisible':['|', ('state', '=', 'draft')]}" />
+                            <field name="user_parent" attrs="{'invisible':['|', ('state', '=', 'draft')]}"/>
+                            <field name="parent_email" attrs="{'invisible':['|', ('state', '=', 'draft')]}"/>
+                            <field name="aadharcardno" string="Aadhar Card Number" attrs="{'invisible':['|', ('state', '=', 'draft')]}" />
+                            <field name="bankacnumber" string="Bank Account Number" attrs="{'invisible':['|', ('state', '=', 'draft')]}" />
+                            <field name="pancardno" string="Pan Card Number" attrs="{'invisible':['|', ('state', '=', 'draft')]}" />
+                            <field name='parent' invisible="1"/>
+                        </group>
+                        <separator string="Address Details" attrs="{'invisible':['|', ('state', '=', 'draft')]}" />
+                            <field name="pstreet" attrs="{'invisible':['|', ('state', '=', 'draft')]}"/>
+                            <field name="pstreet2" attrs="{'invisible':['|', ('state', '=', 'draft')]}"/>
+                            <field name="pcity" attrs="{'invisible':['|', ('state', '=', 'draft')]}"/>
+                            <field name="pstate_id" attrs="{'invisible':['|', ('state', '=', 'draft')]}"/>
+                            <field name="pzip" attrs="{'invisible':['|', ('state', '=', 'draft')]}"/>
+                            <field name="pcountry_id" attrs="{'invisible':['|', ('state', '=', 'draft')]}"/>
+                        <!-- </group> -->
+                        <group string="Contact Details" attrs="{'invisible':['|', ('state', '=', 'draft')]}">
+                            <field name="pphone" string="Phone" attrs="{'invisible':['|', ('state', '=', 'draft')]}"/>
+                            <field name="pmobile" string="Mobile" attrs="{'invisible':['|', ('state', '=', 'draft')]}"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record> 
+
+        <record id="view_op_parent_tree" model="ir.ui.view">
+            <field name="name">op.parent.tree</field>
+            <field name="model">op.parent</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Parent">
+                    <field name="name"/>
+                    <field name="user_defa" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_op_parent_form" model="ir.ui.view">
+            <field name="name">op.parent.form</field>
+            <field name="model">op.parent</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Parent">
+                    <sheet>
+                        <group colspan="2" string="Father">
+                            <h1>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <field name="ffirst_name"
+                                                    placeholder="First Name"
+                                                    style="padding-right:20px"
+                                                    attrs="{'required':[('select', '=', 'Father')]}"/>
+                                            </td>
+                                            <td>
+                                                <field name="fmiddle_name"
+                                                    placeholder="Middle Name"
+                                                    style="padding-right:20px" />
+                                            </td>
+                                            <td>
+                                                <field name="flast_name"
+                                                    placeholder="Last Name"
+                                                    style="padding-right:20px"
+                                                    attrs="{'required':[('select', '=', 'Father')]}"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </h1>
+                        </group>
+                        <group colspan="2" col="4">
+                            <field name="fage"/>
+                            <field name="_business"/>
+                            <field name="_income"/>
+                        </group>
+                        <group colspan="2" string="Mother">
+                            <h1>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <field name="mfirst_name"
+                                                    placeholder="First Name"
+                                                    style="padding-right:20px" attrs="{'required':[('select', '=', 'Mother')]}"/>
+                                            </td>
+                                            <td>
+                                                <field name="mmiddle_name"
+                                                    placeholder="Middle Name"
+                                                    style="padding-right:20px" />
+                                            </td>
+                                            <td>
+                                                <field name="mlast_name"
+                                                    placeholder="Last Name"
+                                                    style="padding-right:20px"
+                                                    attrs="{'required':[('select', '=', 'Mother')]}"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </h1>
+                        </group>
+                        <group colspan="2" col="4">
+                            <field name="mage"/>
+                            <field name="_business1"/>
+                            <field name="_income1"/>
+                        </group>
+                        <group colspan="2" string="Guardian">
+                            <h1>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <field name="gfirst_name"
+                                                    placeholder="First Name"
+                                                    style="padding-right:20px"
+                                                    attrs="{'required':[('select', '=', 'Guardian')]}"/>
+                                            </td>
+                                            <td>
+                                                <field name="gmiddle_name"
+                                                    placeholder="Middle Name"
+                                                    style="padding-right:20px" />
+                                            </td>
+                                            <td>
+                                                <field name="glast_name"
+                                                    placeholder="Last Name"
+                                                    style="padding-right:20px"
+                                                    attrs="{'required':[('select', '=', 'Guardian')]}"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </h1>
+                        </group>
+                        <group colspan="2" col="4">
+                            <field name="gage"/>
+                            <field name="_business2"/>
+                            <field name="_income2"/>
+                        </group>
+                        <group col="2" colspan="4" string="Other Details ">
+                                <field name="user_defa"/>
+                                <field name="select" widget="radio"/>
+                                <field name="name" string="Enter user's full name as entered above in the form" required="1"/>
+                                <field name="login" string="User's Email ID"/>
+                                <field name="aadharcardno" string="Aadhar Card Number"/>
+                                <field name="bankacnumber" string="Bank Account Number"/>
+                                <field name="pancardno" string="Pan Card Number"/>
+                        </group>
+                        <group>
+                            <label for="street" string="Address Details" />
+                                <div>
+                                    <field name="pstreet" placeholder="Street..." />
+                                    <field name="pstreet2" />
+                                    <div class="address_format">
+                                        <field name="pcity" placeholder="City" style="width: 40%%" />
+                                        <field name="pstate_id" options='{"no_open": True}'
+                                            placeholder="State" style="width: 24%%" />
+                                        <field name="pzip" placeholder="ZIP" style="width: 34%%" />
+                                    </div>
+                                    <field name="pcountry_id" placeholder="Country" options='{"no_open": True}' />
+                                    <field name="pphone" placeholder="Phone" />
+                                    <field name="pmobile" placeholder="Mobile" />
+                                </div>
+                        </group> 
+                    </sheet>
+                    <footer>
+                        <button string='Save' name="post_data" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="view_op_parent_search" model="ir.ui.view">
+            <field name="name">op.parent.search</field>
+            <field name="model">op.parent</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Parent">
+                    <field name="name" />
+                    <!-- <field name="student_id" /> -->
+                    <newline />
+                    <group expand="0" string="Group By...">
+                        <filter string="Name" domain="[]" context="{'group_by':'name'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_op_parent_view">
+            <field name="name">Parents</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.parent</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_op_parent_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_parent_view_form">
+            <field name="act_window_id" ref="act_open_op_parent_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_parent_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_parent_view_tree">
+            <field name="act_window_id" ref="act_open_op_parent_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_op_parent_tree" />
+        </record>
+    </data>
+</odoo>

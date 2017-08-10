@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record id="view_op_caste_category_tree" model="ir.ui.view">
+            <field name="name">op.caste.categorytree</field>
+            <field name="model">caste.category</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Caste Category">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+    	<record id="view_op_caste_category_form" model="ir.ui.view">
+            <field name="name">op.caste.categoryform</field>
+            <field name="model">caste.category</field>
+            <field name="arch" type="xml">
+                <form string="Caste Category:">
+                    <sheet>
+                        <group colspan="4">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="stu_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_caste_view">
+            <field name="name">Caste</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">caste.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="caste_form_display">
+            <field name="act_window_id" ref="act_open_caste_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_caste_category_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="caste_tree_display">
+            <field name="act_window_id" ref="act_open_caste_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_op_caste_category_tree" />
+        </record>
+    </data>
+</odoo>

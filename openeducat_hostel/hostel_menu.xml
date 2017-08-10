@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_op_hostel_root" name="Hostel" sequence="20" />
+
+        <menuitem id="menu_op_hostel_main" name="Hostel Management" sequence="90"/>
+
+        
+        <menuitem id="menu_op_school_config_hostel" name="Hostel Management"
+            parent="menu_op_hostel_main" sequence="50"/>
+
+        <menuitem id="menu_op_hostel_sub" name="Hostels"
+            parent="menu_op_school_config_hostel" sequence="10"
+            action="act_open_op_hostel_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin" />
+
+        <menuitem id="menu_op_room_sub" name="Rooms"
+            parent="menu_op_school_config_hostel" sequence="20"
+            action="act_open_op_room_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin" />
+
+        <menuitem id="menu_op_hostel_room_sub" name="Hostel Room Allocations"
+            parent="menu_op_school_config_hostel" sequence="30"
+            action="act_open_op_hostel_room_view" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin" />
+    </data>
+</odoo>
+
+        

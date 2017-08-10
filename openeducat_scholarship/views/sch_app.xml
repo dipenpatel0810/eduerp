@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Sequences for id 
+        <record id="seq_for_id1" model="ir.sequence.type">
+            <field name="name">Application ID</field>
+            <field name="code">op.scholarship.app</field>
+        </record>-->
+
+        <record id="seq_for_id2" model="ir.sequence">
+            <field name="name">Application ID</field>
+            <field name="code">op.scholarship.app</field>
+            <field name="prefix">AI</field>
+            <field name="padding">2</field>
+            
+        </record>
+        <!--<record id="seq_for_scid1" model="ir.sequence.type">
+            <field name="name">Scheme ID</field>
+            <field name="code">op.scholarship.type</field>
+        </record>-->
+
+        <record id="seq_for_scid2" model="ir.sequence">
+            <field name="name">Scheme ID</field>
+            <field name="code">op.scholarship.type</field>
+            <field name="prefix">SCH</field>
+            <field name="padding">3</field>
+        </record>
+        
+
+
+
+    </data>
+</openerp>

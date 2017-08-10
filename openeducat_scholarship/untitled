@@ -1,0 +1,9 @@
+fields.Selection(
+        [('merit_based','Merit-based Scholarship'), ('2', 'Financial Scholarship'), 
+        ('3','Athletic Scholarship'),('4','Research Scholarship'), ('5','Student-specific Scholarship'),
+        ('6','Career-specific Scholarship'), ('7','College-specific Scholarship'), ('8','Brand Scholarship'),
+        ('9','Creative-contest Scholarship')],
+        string='Scholarship Type', required=True)
+
+student error
+instituteid1 error

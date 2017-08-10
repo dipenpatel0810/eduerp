@@ -1,0 +1,66 @@
+<odoo>
+    <data>
+        <template id="report_scholarship_generate">
+            <style>
+                .font{
+                font-size:18px;
+                font-family:"Helvetica"
+                }
+                @page{
+                size: A4;
+                }
+            </style>
+
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="font">
+                            <div class="page">
+                                <div class="row text-center">
+                                    <h2>
+                                        <b>
+                                            <span t-field='res_company.name' />
+                                        </b>
+                                    </h2>
+                                </div>
+                                <div class="row text-center">
+                                    <h2>
+                                        <strong> Scholarship Application Form</strong>
+                                    </h2>
+                                </div>
+                                <br></br>
+                                <div class="text-justify">
+                                    <p> I, <b><span t-field="o.student_id.name"/> <span t-field="o.student_id.middle_name"/> <span t-field="o.student_id.last_name"/> </b>, have read and understand the conditions of(scholarship type) as explained in the current <b> Notes to Candiadtes for Scholaships</b> and the current Bulletin of Information. I affirm that I plan to pursue a career in the same. I give permission to officials of my institution to release transcripts of my academic records and other information requested for consideration in the program. I affirm that all of this application, including the policy proposal, is my own work for formally cited from other sources. I affirm the information contained herein is true and accurate to the best of my knowledge.
+                                    </p>
+                                </div> 
+                                <br></br>
+                                <div class="text-justify">
+                                <!--    <b>From Date:  <span t-field="o.start_date"/> </b><br></br>
+                                    <b>To Date:    <span t-field="o.end_date"/> </b><br></br>-->
+                                    <b>Scholarship Name : <span t-field="o.scho_name.name"/> </b>
+                                    <b>Signature: _____________________________</b>
+                                </div>
+                                <br></br>
+                                <div class="text-justify">
+                                    <b>Legal Name in Full: </b><p>___________________________________________________________</p>
+                                </div>
+                                <br></br>
+                                <div class="text-justify">
+                                    <b>Permanent Address: </b><p>_____________________________________________________________________________________</p><br></br><p>__________________________________________________________________________________________________</p>
+                                    <b>City:</b><p>_________________</p> 
+                                    <b>Pincode/Zip:</b><p>___________________</p><br></br>
+                                    <b>State:</b><p>__________________________</p>
+                                    <b>Country:</b><p>_________________________</p><br></br>
+                                    <b>Nationality</b><p>______________________</p>
+                                    <b>Contact No:</b><p>______________________</p>
+                                
+                                </div>
+                            </div>
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

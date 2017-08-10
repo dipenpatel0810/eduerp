@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="admit_email" model="mail.template">
+            <field name="name">Admit Letter</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="email_from"><![CDATA[${object.company_id.name} <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="email_to">${object.email|safe}</field> 
+            <field name="subject">Message from the EduERP</field>
+            <field name="body_html">
+                <![CDATA[
+                <p>Dear ${object.name},</p>
+            <p>Congratulations! It is my pleasure to offer you admission to our University.</p>
+            
+            <p>
+
+
+We are pleased to inform you about your accpetance to our University.
+
+If your admission is approved by the Graduate School, you should receive email notification of the approval soon. At that time, please log in to your online application to view the decision letter and accept or decline this offer of admission through the provided link. Please note that you may need to meet additional requirements of the Graduate School before the link to indicate your intention regarding the offer is available to you. Instructions will be provided in the online letter.
+Again, congratulations. We look forward to the opportunity of having you in our program. </p>
+
+
+            ]]>
+            </field>
+        </record>
+
+    </data>
+</odoo>

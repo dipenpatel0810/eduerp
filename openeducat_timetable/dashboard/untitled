@@ -1,0 +1,30 @@
+ <!--
+        <record model="ir.actions.act_window" id="act_timetable_request_view">
+            <field name="name">Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.timetable.request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_timetable_request_view_form">
+            <field name="act_window_id" ref="act_timetable_request_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="op_request_form" />
+        </record>
+    -->
+        <record model="ir.ui.view" id="timetable_faculty_dashboard_form_view">
+            <field name="name">board.faculty.form</field>
+            <field name="model">board.board</field>
+            <field name="inherit_id" ref="openeducat_core.board_faculty_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//board" position="inside">
+                    <column>
+                        <action name="%(act_op_faculty_period_today)d" string="Lectures for Today" />
+                    </column>
+                <!--    <column>
+                        <action name="%(act_timetable_request_view)d" string="Request2" />
+                    </column> -->
+                </xpath>
+            </field>
+        </record>

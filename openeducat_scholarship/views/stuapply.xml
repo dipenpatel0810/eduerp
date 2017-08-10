@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.rule" id="user_rule">
+             <field name="name">User Rule</field>
+             <field name="model_id" ref="model_stuapply"></field>
+             <field name="domain_force">[('stu_ids1.user_default', '=',user.id)]</field>
+        </record>
+
+    <!--    ['|',(user_id,'=',user.id),('manager_id.user_id','=',user.id)] -->
+
+       <record id="view_op_student_apply_tree" model="ir.ui.view">
+            <field name="name">op.scholarship.invite.tree</field>
+            <field name="model">stuapply</field>
+            <field name="priority" eval="6" />
+            <field name="arch" type="xml">
+                <tree string="Apply for Scholarship">
+                    <field name="stu_ids1" />
+                    <field name="scheme_id1"/>
+                </tree>
+            </field>
+        </record> 
+
+        <record id="view_op_student_apply_form" model="ir.ui.view">
+            <field name="name">op.scholarship.invite.form</field>
+            <field name="model">stuapply</field>
+            <field name="priority" eval="15" />
+            <field name="arch" type="xml">
+                <form string="Apply for Scholarship">
+                    <header groups="base.group_user">
+                        <button name="act_apply" type="object"
+                            string="Get Scholarship Scheme" class="oe_highlight" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="stu_ids1" />
+                            <field name="scheme_id1" />
+                        </group>    
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_open_stuapply_view">
+            <field name="name">Apply for Scholarship</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stuapply</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+        <!--    <field name="search_view_id" ref="view_op_scholarship_type_search" /> -->
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_op_inviteapp_view_form">
+            <field name="act_window_id" ref="act_open_stuapply_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_student_apply_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_scholarship_type_view_tree">
+            <field name="act_window_id" ref="act_open_stuapply_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_op_student_apply_tree" />  
+        </record> 
+    </data>
+</odoo>

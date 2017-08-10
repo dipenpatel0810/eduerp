@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_hr_holidays_inherit" model="ir.ui.view">
+            <field name="name">op.hr.holidays.inherit</field>
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_new" />
+            <field name="priority" eval="9" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='refuse']" position="after">
+                    <field name="faculty_id" invisible="1"/>
+                    <field name="check" invisible="1"/>
+                    <button string="Reschedule" type="object" class="oe_highlight" name="reschedule_wizard" context="{'faculty_id':faculty_id, 'record_id':id, 'test':1}" attrs="{'invisible':['|',('faculty_id','=',False),('check','=',True)]}" groups="openeducat_core.group_op_back_office, openeducat_core.group_back_office_admin"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="op_faculty_holiday_wizard_form">
+            <field name="name">op.faculty.holiday.wizard.form</field>
+            <field name="model">op.faculty.holiday.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Leaves">
+                    <header groups="base.group_user">
+                            <button string="Proceed" type="object"
+                            name="done" class="oe_highlight" />
+                            <button special="cancel" string="Close"
+                            type="object" />
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="faculty_id" />
+                            <field name="date_from" />
+                            <field name="date_to" />
+                        </group>
+                        <notebook>
+                            <page name="monday" string="Monday">
+                                <group>
+                                    <field name="time_table_ids_1"
+                                        nolabel="1" context="{'default_day': '1'}">
+                                        <tree editable="top">
+                                            <field name="faculty_id" invisible="1"/>
+                                            <field name="timetable_id" invisible="1"/>
+                                            <field name="date" readonly="1"/>
+                                            <field name="period_id" readonly="1"/>
+                                            <field name="subject_id" readonly="1"/>
+                                            <field name="classroom_id" readonly="1"/>
+                                            <field name="section_id" readonly="1"/>
+                                            <field name="new_faculty_id" context="{'subject_id':subject_id,'faculty_id':faculty_id, 'timetable_id': timetable_id, 'get_faculty':1}"/>  
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="tuesday" string="Tuesday">
+                                <group>
+                                    <field name="time_table_ids_2"
+                                        nolabel="1" context="{'default_day': '2'}" >
+                                        <tree editable="top">
+                                            <field name="faculty_id" invisible="1"/>
+                                            <field name="timetable_id" invisible="1"/>
+                                            <field name="date" />
+                                            <field name="period_id" />
+                                            <field name="subject_id" />
+                                            <field name="classroom_id"/>
+                                            <field name="section_id" readonly="1"/>
+                                            <field name="new_faculty_id" context="{'subject_id':subject_id,'faculty_id':faculty_id, 'timetable_id': timetable_id, 'get_faculty':1}"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="wednesday" string="Wednesday">
+                                <group>
+                                    <field name="time_table_ids_3"
+                                        nolabel="1" context="{'default_day': '3'}" >
+                                        <tree editable="top">
+                                            <field name="faculty_id" invisible="1"/>
+                                            <field name="timetable_id" invisible="1"/>
+                                            <field name="date" />
+                                            <field name="period_id" />
+                                            <field name="subject_id" />
+                                            <field name="classroom_id"/>
+                                            <field name="section_id" readonly="1"/>
+                                            <field name="new_faculty_id" context="{'subject_id':subject_id,'faculty_id':faculty_id, 'timetable_id': timetable_id, 'get_faculty':1}"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="thursday" string="Thursday">
+                                <group>
+                                    <field name="time_table_ids_4"
+                                        nolabel="1" context="{'default_day': '4'}" >
+                                        <tree editable="top">
+                                            <field name="faculty_id" invisible="1"/>
+                                            <field name="timetable_id" invisible="1"/>
+                                            <field name="date" />
+                                            <field name="period_id" />
+                                            <field name="subject_id" />
+                                            <field name="classroom_id"/>
+                                            <field name="section_id" readonly="1"/>
+                                            <field name="new_faculty_id" context="{'subject_id':subject_id,'faculty_id':faculty_id, 'timetable_id': timetable_id,'get_faculty':1}"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="friday" string="Friday">
+                                <group>
+                                    <field name="time_table_ids_5"
+                                        nolabel="1" context="{'default_day': '5'}" >
+                                        <tree editable="top">
+                                            <field name="faculty_id" invisible="1"/>
+                                            <field name="timetable_id" invisible="1"/>
+                                            <field name="date" />
+                                            <field name="period_id" />
+                                            <field name="subject_id" />
+                                            <field name="classroom_id"/>
+                                            <field name="section_id" readonly="1"/>
+                                            <field name="new_faculty_id" context="{'subject_id':subject_id,'faculty_id':faculty_id, 'timetable_id': timetable_id,'get_faculty':1}"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="saturday" string="Saturday">
+                                <group>
+                                    <field name="time_table_ids_6"
+                                        nolabel="1" context="{'default_day': '6'}" >
+                                        <tree editable="top">
+                                            <field name="faculty_id" invisible="1"/>
+                                            <field name="timetable_id" invisible="1"/>
+                                            <field name="date" />
+                                            <field name="period_id" />
+                                            <field name="subject_id" />
+                                            <field name="classroom_id"/>
+                                            <field name="section_id" readonly="1"/>
+                                            <field name="new_faculty_id" context="{'subject_id':subject_id,'faculty_id':faculty_id, 'timetable_id': timetable_id,'get_faculty':1}" />
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook> 
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

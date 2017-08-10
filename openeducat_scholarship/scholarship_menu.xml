@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<menuitem id="menu_op_scholarship_root" name="Scholarshipss" sequence="20" />
+    	<menuitem id="menu_op_scholarship_main" name="Scholarship" sequence="50"/>
+
+        <menuitem id="menu_op_scholarship_type_sub" name="Scholarship Schemes"
+            parent="menu_op_scholarship_main" sequence="50"
+            action="act_open_op_scholarship_type_view" groups="openeducat_core.group_op_back_office_admin"/>
+
+
+        <menuitem id="menu_op_scholarship_invite_sub" name="Invite Applicants"
+            parent="menu_op_scholarship_main" sequence="70"
+            action="act_open_inviteapp_view" groups="openeducat_core.group_op_back_office_admin" />
+
+
+        <!-- <menuitem id="menu_op_scholarship_report_sub" name="Generate Scholarship Application"
+            parent="menu_op_scholarship_main" sequence="80"
+            action="act_open_op_scholarship_report_view" groups="openeducat_core.group_op_back_office_admin,openeducat_core.group_op_student"/> -->
+            
+        <menuitem id="menu_op_student_apply" name="Apply for Scholarship"
+            parent="menu_op_scholarship_main" sequence="90"
+            action="act_open_stuapply_view" groups="openeducat_core.group_op_back_office_admin,openeducat_core.group_op_student"/>
+
+        <menuitem id="menu_op_applicationform" name="Application Form"
+            parent="menu_op_scholarship_main" sequence="100"
+            action="act_open_applicationform_view" groups="openeducat_core.group_op_back_office_admin,openeducat_core.group_op_student"/>
+
+        <menuitem id="menu_caste" name="Castee"
+            parent="menu_op_scholarship_main" sequence="110"
+            action="act_open_caste_view" groups="openeducat_core.group_op_back_office_admin"/>
+    </data>
+</odoo>

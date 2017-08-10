@@ -1,0 +1,13 @@
+<openerp>
+    <data>
+        <record id="got1" model="got">
+            <field name="name">Jon Snow</field>
+        </record>
+        <record id="got2" model="got">
+            <field name="name">Tyrion Lannister</field>
+        </record>
+        <record id="got3" model="got">
+            <field name="name">Sansa Stark</field>
+        </record>
+    </data>
+</openerp>

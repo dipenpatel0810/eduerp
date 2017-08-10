@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="dashboard_admin_rule" model="ir.rule">
+            <field name="name">Time Table</field>
+            <field name="model_id" ref="model_op_timetable"/>
+            <field name="global" eval="True"/>
+            <field name="groups" eval="[(4,ref('base.group_erp_manager'))]"/>
+            <field name="domain_force">[]</field>
+        </record> 
+        <!-- ^^later can change this to a timetable or faculty admin and put a domain that checks inst, dept, etc-->
+        <record id="dashboard_student_rule" model="ir.rule">
+            <field name="name">Time Table</field>
+            <field name="model_id" ref="model_op_timetable"/>
+            <field name="global" eval="True"/>
+            <field name="groups" eval="[(4,ref('openeducat_core.group_op_student'))]"/>
+            <field name="domain_force">[('student_ids.user_ids','in',user.id)]</field>
+        </record> 
+        <record model="ir.actions.act_window" id="act_op_student_period_today">
+            <field name="name">Period</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.timetable</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar,form</field>
+            <field name="view_id" ref="view_op_timetable_calendar" />
+            <field name="domain">[]</field>
+        <!--    <field name="search_view_id" ref="view_op_timetable_search" /> -->
+        </record>
+        <record model="ir.ui.view" id="timetable_student_dashboard_form_view">
+            <field name="name">board.faculty.form</field>
+            <field name="model">board.board</field>
+            <field name="inherit_id" ref="openeducat_core.board_student_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//board" position="inside">
+                    <column>
+                        <action name="%(act_op_student_period_today)d" string="Period for Today" />
+                    </column>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

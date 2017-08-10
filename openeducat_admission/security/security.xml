@@ -1,0 +1,12 @@
+<openerp>
+    <data>
+        <record id="group_applicant" model="res.groups">
+            <field name="name">Applicant</field>
+            <field name="category_id" ref="openeducat_core.module_category_openeducat"/>
+        </record>
+
+        <record id="make_invisible" model="res.groups">
+    		<field name="name">Invisible</field>
+ 		</record>
+    </data>
+</openerp>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="op_student_elective_form">
+            <field name="name">op.student.elective.form</field>
+            <field name="model">op.student.elective.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Electives">
+                    <sheet>
+                        <header groups="base.group_user">
+                            <button string="Proceed" type="object"
+                                name="done" context="{'ch_id': id}"/>
+                            <button special="cancel" string="Close"
+                            type="object" />
+                        </header>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="course_id"/>
+                            <field name="electives_allowed"/>
+                        </group>
+                        <group>
+                            <field name="subjectrecord_ids" nolabel="1">
+                                <tree string="Subjects" editable="top">
+                                    <field name="id" invisible="1"/>
+                                    <field name="subject_id" readonly="1"/>
+                                    <field name="subject_type" readonly="1"/>
+                                    <field name="select"/>
+                                    <field name="sub_line_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

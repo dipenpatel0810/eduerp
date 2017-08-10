@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.rule" id="user_rule">
+             <field name="name">User Rule</field>
+             <field name="model_id" ref="model_op_admission"></field>
+             <field name="domain_force">[('user_default', '=',user.id)]</field>
+        </record>
+
+        <data>
+        <record id="apply_now" model="website.menu">
+            <field name="name">Sign Up</field>
+            <field name="url">/web/signup</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">80</field>
+            <field name="website_id" ref="website.default_website"/>
+        </record>
+    </data>
+
+        <record id="view_op_admission_tree" model="ir.ui.view">
+            <field name="name">op.admission.tree</field>
+            <field name="model">op.admission</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Admission">
+                    <field name="name" />
+                    <field name="middle_name" />
+                    <field name="last_name" />
+                    <field name="application_number" />
+                    <field name="admission_date" />
+                    <field name="application_date" />
+                    <field name="birth_date" />
+                    <field name="course_id" />
+                    <field name="batch_id" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_op_admission_form" model="ir.ui.view">
+            <field name="name">op.admission.form</field>
+            <field name="model">op.admission</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Admission">
+                    <header groups="base.group_user">
+                        <!-- states="draft" -->
+                        <button string="Send Acceptance Email" 
+                            type="object" name="admit_email" class="oe_highlight" 
+                             attrs="{'invisible':['|', ('email_button','=', False)]}" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin" />
+                        <button string="Generate Applicant ID" states="done"
+                            type="object" name="generate_student_id" class="oe_highlight" attrs="{'invisible':['|', ('applyy','=', False)]}" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin" />
+                            
+                        <button name="confirm_in_progress" states="draft" string="Confirm" 
+                            type="object" class="oe_highlight" groups="openeducat_admission.group_applicant,openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+                        <button name="create_invoice" states="confirm" string="Create Invoice"
+                            type="object" class="oe_highlight" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+                        <button name="payment_process" states="payment_process" string="Processed"
+                            type="object" class="oe_highlight" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+                        <button name="enroll_student" states="fees_paid,pending" string="Enroll"
+                            type="object" class="oe_highlight" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+                        <button name="confirm_rejected" states="payment_process,fees_paid,,pending" string="Reject" type="object" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+                        <button name="confirm_pending" states="fees_paid" string="Pending"
+                            type="object" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin" />
+                        <button name="confirm_cancel" states="draft,confirm" string="Cancel"
+                            type="object" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+                        <button name="confirm_to_draft" states="pending,reject,cancel" string="Set to Draft"
+                            type="object" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+                        <button name="open_student" states="done" string="Open Student Profile" class="oe_highlight"
+                            type="object" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+                        <button name="access_student" states="done" string="Give Access Rights of a Student" attrs="{'invisible':['|',('rights','=',False)]}" class="oe_highlight"
+                            type="object" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+                        <!-- <button name="rights_test"  string="Test" type="object" /> -->
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,payment_process,fees_paid,done" />
+                    </header>
+                    <sheet>
+                        <field name="photo" widget="image" class="oe_left oe_avatar" />
+                        <div class="oe_title">
+                            <h1>
+                                <field name="title" placeholder="Title" style="width: 30%%" />
+                            </h1>
+                            <h1><table>
+                                <tr>
+                                <td><field name="name" placeholder="First Name" style="padding-right:10px" /></td>
+                                <td><field name="middle_name" placeholder="Middle Name" style="padding-right:10px" /></td>
+                                <td><field name="last_name" placeholder="Last Name" style="padding-right:10px" /></td>
+                                </tr>
+                                </table>
+                            </h1>
+                        </div>
+                        <notebook colspan="4">
+                            <page name="admission_detail" string="Admission Details">
+                                <group col="4" colspan="4">
+                                    <field name="user_default" groups="openeducat_core.group_op_back_office,openeducat_core.group_op_back_office_admin"/>
+                                    <field name="application_number" />
+                                    <field name="application_date" />
+                                    <field name="admission_date" />
+                                    <field name="campus_id" />
+                                    <field name="institute_id" 
+                                        context="{'campus_id': campus_id,'get_parent_institute':1}" />
+                                    <field name="department_id"
+                                        context="{'institute_id': institute_id,'get_parent_department':1}" />
+                                    <field name="program_id" 
+                                        context="{'department_id': department_id,'get_parent_program':1}" />
+                                    <field name="program_type" 
+                                        context="{'program_id':program_id, 'get_parent_program_type':1}"/>
+                                    <field name="batch_id" context="{'program_id': program_id,'institute_id': institute_id, 'get_parent_batch':1}"/>
+                                    <field name="course_id" context="{'program_id': program_id, 'student_id': id, 'batch_id':batch_id, 'program_type':program_type, 'get_parent_course':1}" />
+                                    <field name="fees" />
+                                    <field name="due_date" />
+                                    <field name="merit"/>
+                                    <field name="admtype"/>
+                                    <field name="email_button" invisible="1"/>
+
+                                </group>
+                                <group>
+                                    <field name="register_id" domain="[('state', 'in', ['application','admission','done'])]" widget="selection" />
+                                </group>
+                            </page>
+                            <page name="educational_detail" string="Educational Details">
+                                <group col="4" colspan="4" string="SSC">
+                                    <field name="school_namee"/>
+                                    <field name="ssc_result" />
+                                </group>
+                                <group col="4" colspan="4" string="HSC">
+                                    <field name="school_name" />
+                                    <field name="hsc_result" />
+                                </group>
+                                <group col="4" colspan="4" string="Previous Institute">
+                                    <field name="prev_institute"/>
+                                    <field name="prev_institute_course"/>
+                                    <field name="cgpa"/>
+                                    <field name="applyy" invisible="1"/>
+                                    <field name="rights" invisible="1"/>
+                                    <field name="reg_no" />
+                                </group>
+                            </page>
+                            <page name="personal_detail" string="Personal Detail">
+                                <group col="4" colspan="4">
+                                    <field name="gender" />
+                                    <field name="caste"/>
+                                    <field name="sub_caste"/>
+                                    <field name="religion"/>
+                                    <field name="minority"/>
+                                    <field name="status"/>
+                                    <field name="birth_date" />
+                                    <!--<field name="login" string="Email ID" placeholder="abc@example.com"/>-->
+                                </group>
+                                <label for="street" string="Temporary Address" />
+                                <div>
+                                    <field name="street" placeholder="Street..." />
+                                    <field name="street2" />
+                                    <div class="address_format">
+                                        <field name="city" placeholder="City" style="width: 40%%" />
+                                        <field name="state_id" options='{"no_open": True}'
+                                            placeholder="State" style="width: 24%%" />
+                                        <field name="zip" placeholder="ZIP" style="width: 34%%" />
+                                    </div>
+                                    <field name="country_id" placeholder="Country" options='{"no_open": True}' />
+                                    <field name="phone" placeholder="Phone" />
+                                    <field name="mobile" placeholder="Mobile" />
+                                </div>
+                                <label for="street1" string="Permanent Address" />
+                                <div>
+                                    <field name="street1" placeholder="Street..." />
+                                    <field name="street22" />
+                                    <div class="address_format">
+                                        <field name="city1" placeholder="City" style="width: 40%%" />
+                                        <field name="state_id1" options='{"no_open": True}'
+                                            placeholder="State" style="width: 24%%" />
+                                        <field name="zip1" placeholder="ZIP" style="width: 34%%" />
+                                    </div>
+                                    <field name="country_id1" placeholder="Country" options='{"no_open": True}' />
+                                    <field name="phone1" placeholder="Phone" />
+                                    <field name="mobile1" placeholder="Mobile" />
+                                </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_op_admission_search" model="ir.ui.view">
+            <field name="name">op.admission.search</field>
+            <field name="model">op.admission</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Admission">
+                    <field name="name" />
+                    <field name="middle_name" />
+                    <field name="last_name" />
+                    <field name="application_number" />
+                    <field name="admission_date" />
+                    <field name="application_date" />
+                    <field name="birth_date" />
+                    <field name="course_id" />
+                    <field name="batch_id" />
+                    <newline />
+                    <group expand="0" string="Group By...">
+                        <filter string="Last Name" domain="[]"
+                            context="{'group_by':'last_name'}" />
+                        <filter string="Admission Date" domain="[]"
+                            context="{'group_by':'admission_date'}" />
+                        <filter string="Application Date" domain="[]"
+                            context="{'group_by':'application_date'}" />
+                        <filter string="Course" domain="[]" context="{'group_by':'course_id'}" />
+                        <filter string="Batch" domain="[]" context="{'group_by':'batch_id'}" />
+                        <filter string="Status" domain="[]" context="{'group_by':'state'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_op_admission_graph">
+            <field name="name">op.admission.graph</field>
+            <field name="model">op.admission</field>
+            <field name="arch" type="xml">
+                <graph string="Course By Admission" type="pie">
+                    <field name="course_id" />
+                    <field name="nbr" operator="+" />
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_open_op_admission_view">
+            <field name="name">Admissions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.admission</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="groups_id" eval="[(4, ref('openeducat_core.group_op_back_office_admin'))]"/>
+            <field name="search_view_id" ref="view_op_admission_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_admission_view_form">
+            <field name="act_window_id" ref="act_open_op_admission_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="groups_id" eval="[(4, ref('openeducat_core.group_op_back_office_admin'))]"/>
+            <field name="view_id" ref="view_op_admission_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_admission_view_tree">
+            <field name="act_window_id" ref="act_open_op_admission_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="groups_id" eval="[(4, ref('openeducat_core.group_op_back_office_admin'))]"/>
+            <field name="view_id" ref="view_op_admission_tree" />
+        </record>
+    </data>
+</odoo>

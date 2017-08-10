@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_syllabus_tree" model="ir.ui.view">
+            <field name="name">op.syllabus.tree</field>
+            <field name="model">op.syllabus</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Syllabus" colors="#0000ff:status=='active';red:status=='inactive'">
+                    <field name="subject_id"/>
+                    <field name="data"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_op_syllabus_form" model="ir.ui.view">
+            <field name="name">op.syllabus.form</field>
+            <field name="model">op.syllabus</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Syllabus">
+                    <sheet>
+                        <group>
+                            <field name="subject_id"/>
+                            <field name="data" attrs="{'readonly':[('id','>', 0)]}"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="status"/>
+                            <field name="id" invisible="1" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

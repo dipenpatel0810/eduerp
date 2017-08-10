@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_subject_form_evaluation_inherit" model="ir.ui.view">
+            <field name="name">op.subject.form.evaluation_inherit</field>
+            <field name="model">op.subject</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_subject_form" />
+            <field name="priority" eval="9" />
+            <field name="arch" type="xml">
+                <field name="note" position="after">
+                    <separator string="Evaluation Method" colspan="2"/>
+                    <field name="evaluation_ids" nolabel="1" colspan="4"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

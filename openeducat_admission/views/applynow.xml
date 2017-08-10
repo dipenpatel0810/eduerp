@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    	<record id="view_applynow_tree" model="ir.ui.view">
+            <field name="name">applynow_tree_view</field>
+            <field name="model">applynow</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Applicants">
+                    <field name="name"/>
+
+                </tree>
+            </field>
+        </record>
+    	<record id="view_applynow_form" model="ir.ui.view">
+            <field name="name">applynow_form_view</field>
+            <field name="model">applynow</field>
+            <field name="arch" type="xml">
+                <form string="Applicants">
+                    <sheet>
+                        <group colspan="4">
+                            <field name="name"/>
+                            <field name="login" string="User ID"/>
+                            <field name="email_id"/>
+                            
+                        </group>
+                        <group colspan="4">
+                            <button string="Send an Invitation Email"
+                            type="object" name="send_my_mail" context="{'create_user': 1}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="admission_applynow">
+            <field name="name">Apply Now</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">applynow</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        <!-- <record model="ir.actions.act_window.view" id="applynow_form">
+            <field name="act_window_id" ref="admission_applynow" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_applynow_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="applynow_tree">
+            <field name="act_window_id" ref="admission_applynow" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_applynow_tree" />
+        </record> -->
+    </data>
+</odoo>

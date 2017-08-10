@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_course_tree" model="ir.ui.view">
+            <field name="name">op.course.tree</field>
+            <field name="model">op.course</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Course">
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="evaluation_type" /> 
+                    <field name="program_id" />
+                    <field name="program_type" />
+                    <field name="batch_id" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_op_course_form" model="ir.ui.view">
+            <field name="name">op.course.form</field>
+            <field name="model">op.course</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Course">
+                    <header>
+                        <button name="draft" type="workflow"
+                                string="Reset to draft"
+                                states="active,inactive" groups="openeducat_core.group_op_back_office_admin, openeducat_core.group_back_office"/>
+                        <button name="active" type="workflow"
+                                string="Active" states="draft"
+                                class="oe_highlight" groups="openeducat_core.group_op_back_office_admin, openeducat_core.group_back_office"/>
+                        <button name="inactive" type="workflow"
+                                string="Inactive" states="active"
+                                class="oe_highlight" groups="openeducat_core.group_op_back_office_admin, openeducat_core.group_back_office"/>
+                        <field name="state" widget="statusbar" groups="openeducat_core.group_op_back_office_admin, openeducat_core.group_back_office"/>
+                    </header>
+                    <sheet>
+                        <group colspan="4" col="4" name="main">
+                            <field name="name" />
+                            <field name="code" />
+                            <field name="campus_id" />
+                            <field name="institute_id" 
+                                context="{'campus_id': campus_id,'get_parent_institute':1}" />
+                            <field name="department_id" 
+                                context="{'institute_id': institute_id,'get_parent_department':1}" />
+                            <field name="program_id" 
+                                context="{'department_id': department_id,'get_parent_program':1}" />
+                            <field name="program_type" context="{'program_id':program_id, 'get_parent_program_type':1}"/>
+                            <field name="evaluation_type" /> 
+                            <field name="batch_id" context="{'program_id': program_id,'institute_id': institute_id, 'get_parent_batch':1}"/>
+                            <field name="start_date" />
+                            <field name="end_date" /> 
+                            <field name="sequence" />
+                        </group>
+                        <group string="Core Subjects" name="subject">
+                            <field name="subject_ids" nolabel="1" domain="[('institute_id','=',institute_id)]"/>
+                            <!-- only subjects of the selected institute are shown -->
+                        </group>
+                        <group string="Electives" name="elective" >
+                            <field name="electives_allowed" colspan="2"/>
+                            <field name="elective_ids" nolabel="1" domain="[('institute_id','=',institute_id)]" colspan="4"/> 
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_op_course_search" model="ir.ui.view">
+            <field name="name">op.course.search</field>
+            <field name="model">op.course</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="Course">
+                    <field name="name" />
+                    <field name="code" />
+<!--                    <field name="section" /> -->
+                    <field name="evaluation_type" />
+                    <newline />
+                    <group expand="0" string="Group By...">
+                        <filter string="Evaluation Type" domain="[]"
+                            context="{'group_by':'evaluation_type'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_op_course_view">
+            <field name="name">Courses</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.course</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_op_course_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_course_view_form">
+            <field name="act_window_id" ref="act_open_op_course_view" />
+            <field name="sequence" eval="20" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_op_course_form" />
+        </record>
+        <record model="ir.actions.act_window.view" id="act_open_op_course_view_tree">
+            <field name="act_window_id" ref="act_open_op_course_view" />
+            <field name="sequence" eval="10" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_op_course_tree" />
+        </record>
+    </data>
+</odoo>
